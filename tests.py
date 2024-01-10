@@ -110,6 +110,11 @@ class Test_Signed_In(unittest.TestCase):
         self.assertEqual(result.status_code, 200)
         self.assertIn("activity to begin tracking", result.data)
 
+    def test_get_table_sizes(self):
+        """Tests get_table_sizes function."""
+
+        self.assertEqual(get_table_sizes((['name'] * 11), [(5, 1), (3, 2)])
+
 
 if __name__ == '__main__':
     unittest.main()
