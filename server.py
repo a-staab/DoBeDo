@@ -15,7 +15,7 @@ def check_signed_in():
     """Check that user is logged in before loading pages which should only be
     accessible when logged in. If not, redirect to sign-in page."""
 
-    public_routes = ["/", "/signup", "/signin"]
+    public_routes = { "/", "/signup", "/signin", "/static/style.css", "/static/landing.css", "/static/heart.jpg" }
 
     if request.path not in public_routes and not session.get("user_id"):
         flash("You need to be logged in to view this page. Please log in.")
