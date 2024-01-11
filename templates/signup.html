@@ -20,8 +20,11 @@
         </div>
 <script>
     function showAlert() {
-        alert("Providing your phone number is optional. If you include it, we'll send you occasional reminders by text message.");
+        if (!sessionStorage.getItem("alerted")) {
+            alert("Providing your phone number is optional. If you include it, we'll send you occasional reminders by text message.");
+            sessionStorage.setItem("alerted", true);
+        }
     }
-    $('#phone').on('change', showAlert);
+    $('#phone').on('click', showAlert);
 </script>
 {% endblock %}
