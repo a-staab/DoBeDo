@@ -29,13 +29,14 @@ for occurrence in incomplete_occurrences:
 
 account_sid = os.environ["ACCOUNT_SID"]
 auth_token = os.environ["AUTH_TOKEN"]
+twilio_phone_number = os.environ["TWILIO_PHONE_NUMBER"]
 
 client = Client(account_sid, auth_token)
 
 for number in numbers_to_dial:
     message = client.messages.create(
         to=number,
-        from_="+19073121980",
+        from_=twilio_phone_number,
         body="""Hey friend! Looks like you've got one or more planned activities you might have finished. Let's hear how you felt, while it's still fresh in your mind!""")
 
     print(message.sid)
