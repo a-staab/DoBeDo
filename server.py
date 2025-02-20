@@ -49,8 +49,7 @@ def signup_user():
     # Check database for pre-existing account by checking for a user with the
     # provided email address
     if User.query.filter(User.email == email).all():
-        flash("Looks like you've already registered. If you mistyped, please tr\
-               y again.")
+        flash("Looks like you've already registered. If you mistyped, please try again.")
 
         return redirect("/signup")
 
