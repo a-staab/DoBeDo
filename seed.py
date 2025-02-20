@@ -45,7 +45,7 @@ def load_occurrences():
 
     for i, row in enumerate(open("seed_data/u.occurrence")):
         row = row.rstrip()
-        print row
+        print(row)
         (activity_id, start_time, end_time, before_rating, after_rating,
             notes) = row.split("|")
         if notes == '':
