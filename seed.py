@@ -65,10 +65,11 @@ def load_occurrences():
 
 if __name__ == "__main__":
     connect_to_db(app)
-    db.drop_all()
-    db.create_all()
+    with app.app_context():
+        db.drop_all()
+        db.create_all()
 
-    load_users()
-    load_activities()
-    load_occurrences()
+        load_users()
+        load_activities()
+        load_occurrences()
     # set_val_user_id()
