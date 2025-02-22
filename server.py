@@ -57,7 +57,6 @@ def signup_user():
 
         # Generate salt and hash password to store hashed password in database
         password = bcrypt.hashpw(password.encode('utf8'), bcrypt.gensalt())
-
         # Age and phone number are optional
         if age and phone_number:
             new_user = User(user_handle=username,
@@ -164,10 +163,12 @@ def signin_user():
         # If so, check that the provided password produces the same hash as
         # what's stored in the database for the user with the provided email
         # address when the salt (stored in the hash) is applied to it
-        password = User.query.filter(User.email == email).one().password
+        stored = User.query.filter(User.email == email).one().password
+        # Returned value is hexadecimal with \x prepended, so removing first two digits before converting
+        stored = bytes.fromhex(stored[2:])
         provided_password = provided_password.encode('utf8')
-        provided_after_salt = bcrypt.hashpw(provided_password, str(password))
-        if password == provided_after_salt:
+        provided_after_salt = bcrypt.hashpw(provided_password, stored)
+        if stored == provided_after_salt:
             # If so, get the user's user_id and user_handle and store them on
             # the session
             sign_in_user(email)
