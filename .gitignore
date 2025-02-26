@@ -1,2 +1,4 @@
 *.pyc
 log.txt
+seed.py
+seed_data
