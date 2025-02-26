@@ -68,8 +68,7 @@ if __name__ == "__main__":
     with app.app_context():
         db.drop_all()
         db.create_all()
-
         load_users()
         load_activities()
         load_occurrences()
-    # set_val_user_id()
+
