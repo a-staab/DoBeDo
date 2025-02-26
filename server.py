@@ -164,8 +164,6 @@ def signin_user():
         # what's stored in the database for the user with the provided email
         # address when the salt (stored in the hash) is applied to it
         stored = User.query.filter(User.email == email).one().password
-        # Returned value is hexadecimal with \x prepended, so removing first two digits before converting
-        stored = bytes.fromhex(stored[2:])
         provided_password = provided_password.encode('utf8')
         provided_after_salt = bcrypt.hashpw(provided_password, stored)
         if stored == provided_after_salt:
