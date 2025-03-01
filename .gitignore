@@ -2,3 +2,8 @@
 log.txt
 seed.py
 seed_data
+env
+env/
+*.DS_Store
+secrets.sh
+dobedo_launch_script.sh
