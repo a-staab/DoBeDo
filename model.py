@@ -141,7 +141,7 @@ def example_data():
     # t_occurence_2 = Occurrence(activity_id=2, start_time=, end_time=,
     # before_rating=, after_rating=, notes=)
 
-    # Test than an occurrence can be updated
+    # Test that an occurrence can be updated
 
     # t_occurence_1 = (set values for end_time, after_rating, and notes)
 
