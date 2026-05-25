@@ -1,5 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask import session
+import os
 
 db = SQLAlchemy()
 
@@ -81,7 +82,7 @@ class Occurrence(db.Model):
             self.occurrence_id, self.activity_id)
 
 
-def connect_to_db(app, db_uri='postgresql:///tracker'):
+def connect_to_db(app, db_uri=os.environ.get('PROD_DB_URI')):
     """Connect to the database."""
 
     # Making the database a default value for the db_uri parameter allows us to

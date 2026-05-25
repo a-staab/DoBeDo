@@ -1,17 +1,9 @@
-from model import db, Occurrence
+from model import Occurrence
 from twilio.rest import Client
-from flask import Flask
 from datetime import datetime, timedelta
 import os
 import pytz
 
-
-app = Flask(__name__)
-
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql:///tracker"
-db.app = app
-db.init_app(app)
-db.create_all()
 
 # Query for phone numbers of people with incompleted occurrences
 numbers_to_dial = set()

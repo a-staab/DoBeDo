@@ -1,7 +1,7 @@
-import unittest
 from server import app
 from model import db, connect_to_db, example_data
-
+import unittest
+import os
 
 class Test(unittest.TestCase):
     """Tests for public pages."""
@@ -13,7 +13,7 @@ class Test(unittest.TestCase):
         app.config['TESTING'] = True
 
         # Connect to test database
-        connect_to_db(app, "postgresql:///test_database")
+        connect_to_db(app, os.environ.get('TEST_DB_URI'))
 
         # Create tables and add sample data
         db.create_all()

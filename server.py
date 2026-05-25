@@ -404,8 +404,6 @@ def signout_user():
     del session['user_handle']
     return redirect("/")
 
-# connect_to_db(app)
-
 if __name__ == "__main__":
     app.debug = False
     app.jinja_env.auto_reload = app.debug
