@@ -193,7 +193,9 @@ def show_main_page():
     # Get activities for dropdown menu for choosing one to plan
     activities = Activity.query.filter(Activity.user_id == session['user_id']
                                        ).all()
-
+    if len(activities) == 0:
+        return redirect("/setup")
+    
     # Get user's occurrences without end times & before ratings to display as
     # links so user can click to complete them
     user = User.query.filter(User.user_id == session['user_id']).one()
