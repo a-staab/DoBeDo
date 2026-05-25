@@ -7,8 +7,8 @@
 </p>
 <form action="/record_before/{{ activity_id }}", method="POST">
     <button type="button" id="now" name="choose-now" class="btn btn-secondary btn-md">Now</button> or 
-    <input type=text name="planned-time" id="planned-time" placeholder="e.g., 12:00 pm" class="form-control">
-    <input type=date name="planned-date" id="planned-date" placeholder="12/31/2017" class="form-control">
+    <input type=text required='true' name="planned-time" id="planned-time" placeholder="e.g., 12:00 pm" class="form-control">
+    <input type=date required='true' name="planned-date" id="planned-date" placeholder="12/31/2017" class="form-control">
     <br>
     <br>
     <div class="form-group">
