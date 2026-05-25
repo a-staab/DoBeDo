@@ -157,6 +157,8 @@ def signin_user():
 
     provided_password = request.form.get("provided-password")
     email = request.form.get("email")
+    signin_failed_message = "Sorry, we didn't find an account with the email and password \
+            you provided. Please try again."
 
     # Check that a user with the provided email address is already in database
     if User.query.filter(User.email == email).all():
@@ -175,14 +177,12 @@ def signin_user():
             return redirect("/main")
 
         else:
-            flash("Sorry, we didn't find an account with the email and password\
-            you provided. Please try again.")
+            flash(signin_failed_message)
 
             return render_template("signin.html")
 
     else:
-        flash("Sorry, we didn't find an account with the email and password you\
-               provided. Please try again.")
+        flash(signin_failed_message)
         return render_template("signin.html")
 
 

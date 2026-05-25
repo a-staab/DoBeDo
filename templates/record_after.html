@@ -8,8 +8,8 @@
 </p>
 <form action="/record_after/{{ occurrence_id }}", method="POST">
     <button type="button" id="now-after" name="choose-now" class="btn btn-secondary btn-md">Now</button> or
-    <input type=text name="end-time" id="end-time" placeholder="e.g., 12:00 pm" class="form-control"> 
-    <input type=date name="end-date" id="end-date" placeholder="12/31/2017" class="form-control">
+    <input type=text required='true' name="end-time" id="end-time" placeholder="e.g., 12:00 pm" class="form-control"> 
+    <input type=date required='true' name="end-date" id="end-date" placeholder="12/31/2017" class="form-control">
     <br>
     <br>
     <div class="form-group">
