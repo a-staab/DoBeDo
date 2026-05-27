@@ -9,6 +9,7 @@ import bcrypt
 app = Flask(__name__)
 app.secret_key = os.environ["SECRET_KEY"]
 
+connect_to_db(app)
 
 @app.before_request
 def check_signed_in():
@@ -407,6 +408,5 @@ def signout_user():
 if __name__ == "__main__":
     app.debug = False
     app.jinja_env.auto_reload = app.debug
-    connect_to_db(app)
     DebugToolbarExtension(app)
     app.run(host="0.0.0.0", port=5001)

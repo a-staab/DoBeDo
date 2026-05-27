@@ -1,7 +1,7 @@
-from model import Occurrence
-from twilio.rest import Client
-from datetime import datetime, timedelta
 from server import app
+from model import Occurrence
+from signalwire.rest import Client as signalwire_client
+from datetime import datetime, timedelta
 import os
 import pytz
 

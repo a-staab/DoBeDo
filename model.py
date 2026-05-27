@@ -82,7 +82,7 @@ class Occurrence(db.Model):
             self.occurrence_id, self.activity_id)
 
 
-def connect_to_db(app, db_uri=os.environ.get('PROD_DB_URI')):
+def connect_to_db(app, db_uri=os.environ.get('PROD_DB_URI') or os.environ.get('TEST_DB_URI')):
     """Connect to the database."""
 
     # Making the database a default value for the db_uri parameter allows us to

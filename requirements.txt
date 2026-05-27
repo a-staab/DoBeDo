@@ -1,5 +1,5 @@
 aiohappyeyeballs==2.6.1
-aiohttp==3.13.5
+aiohttp==3.9.5
 aiohttp-retry==2.9.1
 aiosignal==1.4.0
 attrs==25.1.0
@@ -20,11 +20,14 @@ MarkupSafe==3.0.2
 multidict==6.1.0
 propcache==0.2.1
 psycopg2-binary==2.9.12
-PyJWT==2.12.0
+pycparser==3.0
+PyJWT==1.7.1
 pytz==2025.1
 requests==2.34.2
+signalwire==2.1.1
+six==1.17.0
 SQLAlchemy==2.0.38
-twilio==9.4.5
+twilio==6.54.0
 typing_extensions==4.12.2
 urllib3==2.7.0
 Werkzeug==3.1.6
