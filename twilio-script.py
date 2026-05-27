@@ -24,17 +24,18 @@ with app.app_context():
     account_sid = os.environ["ACCOUNT_SID"]
     auth_token = os.environ["AUTH_TOKEN"]
     sw_phone_number = os.environ["SIGNALWIRE_PHONE_NUMBER"]
-
-    client = Client(account_sid, auth_token)
+    client = signalwire_client(account_sid, auth_token, os.environ.get('SIGNALWIRE_SPACE_URL'))
 
     app.logger.debug(f'{len(numbers_to_dial)} numbers to dial')
-    for number_user in numbers_to_dial: 
-        try:
-            message = client.messages.create(
-                to=number_user[0],
-                from_=sw_phone_number,
-                body="""Hey friend! Looks like you've got one or more planned activities you might have finished. Let's hear how you felt, while it's still fresh in your mind!""")
-            print(message.sid)
-        except Exception as e:
-            app.logger.error(f'Error texting reminder to user {number_user[1]}: {e.message}')
+    for number_user in numbers_to_dial:
+        print(number_user)
+        # Only send in production
+        if app.debug is False: 
+            try:
+                message = client.messages.create(
+                    to=number_user[0],
+                    from_=sw_phone_number,
+                    body="""Hey friend! Looks like you've got one or more planned activities you might have finished. Let's hear how you felt, while it's still fresh in your mind!""")
+            except Exception as e:
+                app.logger.error(f'Error texting reminder to user {number_user[1]}: {e.message}')
             
