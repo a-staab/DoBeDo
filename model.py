@@ -1,4 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.orm import joinedload
 from flask import session
 import os
 
@@ -34,8 +35,10 @@ class User(db.Model):
 
     def get_completed_occurrences(self):
         """Get all the complete occurrences for user."""
-
+        
         return (db.session.query(Occurrence).join(Activity)
+                          # Joined load here to optimize getting used_activities in show_main_page
+                          .options(joinedload(Occurrence.activity))
                           .filter(Activity.user_id == self.user_id,
                                   Occurrence.end_time.isnot(None),
                                   Occurrence.after_rating.isnot(None),

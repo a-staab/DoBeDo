@@ -5,9 +5,20 @@ from datetime import datetime
 import os
 import pytz
 import bcrypt
+import logging
 
 app = Flask(__name__)
 app.secret_key = os.environ["SECRET_KEY"]
+
+app.debug = False
+app.jinja_env.auto_reload = app.debug
+if app.debug == True:
+    app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
+    app.config['DEBUG_TB_ENABLED'] = True
+    app.config['SQLALCHEMY_RECORD_QUERIES'] = True
+
+log_level = os.environ.get('LOG_LEVEL', logging.WARN)
+app.logger.setLevel(log_level)
 
 connect_to_db(app)
 
@@ -406,7 +417,5 @@ def signout_user():
     return redirect("/")
 
 if __name__ == "__main__":
-    app.debug = False
-    app.jinja_env.auto_reload = app.debug
     DebugToolbarExtension(app)
     app.run(host="0.0.0.0", port=5001)
