@@ -412,11 +412,11 @@ def process_profile_update():
 
 @app.route("/signout", methods=["GET"])
 def signout_user():
-    """Sign user out and redirect to landing page."""
+    """Sign user out and redirect to sign-in page."""
 
     del session['user_id']
     del session['user_handle']
-    return redirect("/")
+    return display_signin_form
 
 if __name__ == "__main__":
     DebugToolbarExtension(app)
