@@ -33,7 +33,7 @@ def check_signed_in():
         flash("You need to be logged in to view this page. Please log in.")
         return redirect("/signin")
     
-    if request.path == '/': return redirect("/main")
+    if request.path == '/' and session.get("user_id"): return redirect("/main")
 
 
 @app.route("/")
@@ -416,7 +416,7 @@ def signout_user():
 
     del session['user_id']
     del session['user_handle']
-    return display_signin_form
+    return redirect("/signin")
 
 if __name__ == "__main__":
     DebugToolbarExtension(app)
