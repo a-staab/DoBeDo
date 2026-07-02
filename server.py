@@ -32,6 +32,8 @@ def check_signed_in():
     if request.path not in public_routes and not session.get("user_id"):
         flash("You need to be logged in to view this page. Please log in.")
         return redirect("/signin")
+    
+    if request.path == '/': return redirect("/main")
 
 
 @app.route("/")
