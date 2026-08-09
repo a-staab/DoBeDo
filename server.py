@@ -114,46 +114,18 @@ def request_activity_types():
 @app.route("/setup", methods=["POST"])
 def create_activity_types():
     """Process setup form, adding user-defined activity types to database."""
-
-    activity_1 = request.form.get("activity_1")
-    activity_2 = request.form.get("activity_2")
-    activity_3 = request.form.get("activity_3")
-    activity_4 = request.form.get("activity_4")
-    activity_5 = request.form.get("activity_5")
-    activity_6 = request.form.get("activity_6")
-    activity_7 = request.form.get("activity_7")
-    activity_8 = request.form.get("activity_8")
-    activity_9 = request.form.get("activity_9")
-    activity_10 = request.form.get("activity_10")
-
-    activities = [activity_1, activity_2, activity_3, activity_4, activity_5,
-                  activity_6, activity_7, activity_8, activity_9, activity_10]
-
-    new_activities = []
-
-    for activity in activities:
-        # User can enter as few as one; if None, it will not be added to the
-        # database
-        if activity:
-            new_activities.append(activity)
-
-    # Handle submission of form with no values
-    if new_activities == []:
-
+    form_entries = request.form.to_dict()
+    activity_types = [a for a in form_entries.values() if a != '']
+    # Handle submission of empty form
+    if not activity_types:
         flash("""You need to enter at least one activity to continue.
               Please make a selection and try again.""")
         return redirect("/setup")
-
-    # For every activity user provides, add activity to the database
     else:
-
-        for activity in new_activities:
-            new_activity = Activity(activity_type=activity,
-                                    user_id=session["user_id"])
-
-            db.session.add(new_activity)
+        for activity_type in activity_types:
+            new_activity_type = Activity(activity_type=activity_type, user_id=session["user_id"])
+            db.session.add(new_activity_type)
         db.session.commit()
-
         flash("Great! Looks like you're ready to start tracking!")
         return redirect("/main")
 
