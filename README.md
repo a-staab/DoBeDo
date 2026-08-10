@@ -27,7 +27,7 @@ recorded how they felt about it afterward.
 - jQuery
 - Jinja
 - Chart.js
-- Twilio API
+- SignalWire API
 
 #### Screenshots and Features
 
