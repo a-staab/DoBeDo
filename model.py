@@ -35,17 +35,15 @@ class User(db.Model):
 
     def get_completed_occurrences(self):
         """Get all the complete occurrences for user."""
-        
         return (db.session.query(Occurrence).join(Activity)
-                          # Joined load here to optimize getting used_activities in show_main_page
-                          .options(joinedload(Occurrence.activity))
-                          .filter(Activity.user_id == self.user_id,
-                                  Occurrence.end_time.isnot(None),
-                                  Occurrence.after_rating.isnot(None),
-                                  Occurrence.start_time.isnot(None),
-                                  Occurrence.before_rating.isnot(None))
-                          .order_by(Occurrence.start_time)
-                          .all())
+            .options(joinedload(Occurrence.activity))
+            .filter(Activity.user_id == self.user_id,
+                    Occurrence.end_time.isnot(None),
+                    Occurrence.after_rating.isnot(None),
+                    Occurrence.start_time.isnot(None),
+                    Occurrence.before_rating.isnot(None))
+            .order_by(Occurrence.start_time)
+            .all())
 
 
 class Activity(db.Model):
@@ -96,17 +94,6 @@ def connect_to_db(app, db_uri=os.environ.get('PROD_DB_URI') or os.environ.get('T
     db.app = app
     db.init_app(app)
 
-
-# Helper functions
-def create_new_user(email, password, user_handle, age=None):
-    """Create a new user."""
-
-    return User(email=email,
-                password=password,
-                user_handle=user_handle,
-                age=age)
-
-
 def sign_in_user(email):
     """Sign in user."""
 
@@ -126,9 +113,9 @@ def example_data():
                   user_handle='artist')
 
     # Tests using create_new_user helper function
-    soo = create_new_user('coding-student@hackbright.com', 'python', 'boss')
-    hannah = create_new_user('hacks@hackbright.com', 'python', 'linguist')
-    katrina = create_new_user('testing_rocks@hackbright.com', 'python', 'friend')
+    soo = User('coding-student@hackbright.com', 'python', 'boss')
+    hannah = User('hacks@hackbright.com', 'python', 'linguist')
+    katrina = User('testing_rocks@hackbright.com', 'python', 'friend')
 
     # Test supplying an age, which is optional
     mel = User(email='mel@ubermelon.com',
