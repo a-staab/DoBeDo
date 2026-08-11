@@ -7,13 +7,13 @@ class LoggedOut_Page_Loads(unittest.TestCase):
 
     def setUp(self):
         self.client = app.test_client()
-        app.config['TESTING'] = True
 
     def test_landing_page_render(self):
         """Tests landing page loads."""
         result = self.client.get("/")
         self.assertEqual(result.status_code, 200)
-        # Do we want to check the content? What would we look for
+        self.assertIn(b'Sign Up', result.data)
+        self.assertIn(b'Sign In', result.data)
 
     def test_signup_page_render(self):
         """Tests that signup page loads."""
