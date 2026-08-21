@@ -2,6 +2,12 @@ from server import app
 from model import db, connect_to_db, example_data
 import unittest
 
+def setUpModule():
+    """Runs once before any test in this file."""
+    app.config['TESTING'] = True
+    app.config['SECRET_KEY'] = 'key'
+    connect_to_db(app, "postgresql:///test_database")
+
 class LoggedOut_Page_Loads(unittest.TestCase):
 
     def setUp(self):
@@ -29,13 +35,6 @@ class LoggedOut_Page_Loads(unittest.TestCase):
 
 class Logged_In(unittest.TestCase):
     """Tests for pages requiring sign in."""
-
-    @classmethod
-    def setUpClass(cls):
-        """Just once."""
-        app.config['TESTING'] = True
-        app.config['SECRET_KEY'] = 'key'
-        connect_to_db(app, "postgresql:///test_database")
 
     def setUp(self):
         """Before each test."""

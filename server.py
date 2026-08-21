@@ -20,8 +20,6 @@ if app.debug == True:
 log_level = os.environ.get('LOG_LEVEL', logging.WARN)
 app.logger.setLevel(log_level)
 
-connect_to_db(app)
-
 @app.before_request
 def check_signed_in():
     """Check that user is logged in before loading pages which should only be
@@ -391,5 +389,6 @@ def signout_user():
     return redirect("/signin")
 
 if __name__ == "__main__":
+    connect_to_db(app)
     DebugToolbarExtension(app)
     app.run(host="0.0.0.0", port=5001)

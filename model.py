@@ -106,9 +106,7 @@ def sign_in_user(email):
 def example_data():
     """Sample data for testing."""
 
-    # Test creation of new users
-
-    # Test using instantiation
+    # Happy path
     ashley = User(email='hb-student@hackbright.com', password='python',
                   user_handle='artist')
 
