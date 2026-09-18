@@ -296,13 +296,15 @@ def get_after_values(occurrence_id):
     end_date = request.form.get("end-date")
 
     unformatted_time = end_date + " " + end_hour
-    end_time = datetime.strptime(unformatted_time, "%Y-%m-%d %I:%M %p", tz=local_timezone)
+    end_time = datetime.strptime(unformatted_time, "%Y-%m-%d %I:%M %p")
+    local_time = end_time.replace(tzinfo=local_timezone)
+    utc_end_time = local_time.astimezone(ZoneInfo('UTC'))
 
     completed_occurrence = Occurrence.query.filter(
         Occurrence.occurrence_id == occurrence_id
         ).one()
 
-    completed_occurrence.end_time = end_time
+    completed_occurrence.end_time = utc_end_time
     completed_occurrence.after_rating = after_rating
 
     db.session.commit()
