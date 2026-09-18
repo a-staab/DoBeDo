@@ -247,8 +247,11 @@ def get_before_values(activity_id):
     start_date = request.form.get("planned-date")
 
     unformatted_time = start_date + " " + start_hour
-    start_time = datetime.strptime(unformatted_time, "%Y-%m-%d %I:%M %p", tzinfo=local_timezone)
-    utc_start_time = start_time.astimezone(ZoneInfo('UTC'))
+    start_time = datetime.strptime(unformatted_time, "%Y-%m-%d %I:%M %p")
+    local_time = start_time.replace(tzinfo=local_timezone)
+    # Postgres converts the time to UTC automatically before storing; doing it here anyway
+    # for clarity's sake and for safety if we were to ever switch databases
+    utc_start_time = local_time.astimezone(ZoneInfo('UTC'))
 
     new_occurrence = Occurrence(activity_id=activity_id,
                                 start_time=utc_start_time,
