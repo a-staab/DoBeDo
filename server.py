@@ -1,9 +1,9 @@
 from flask import Flask, request, render_template, redirect, flash, session, jsonify
 from model import db, User, Activity, Occurrence, connect_to_db, sign_in_user
+from zoneinfo import ZoneInfo
 from flask_debugtoolbar import DebugToolbarExtension
 from datetime import datetime
 import os
-import pytz
 import bcrypt
 import logging
 
@@ -19,6 +19,8 @@ if app.debug == True:
 
 log_level = os.environ.get('LOG_LEVEL', logging.WARN)
 app.logger.setLevel(log_level)
+
+local_timezone = ZoneInfo('US/Pacific')
 
 @app.before_request
 def check_signed_in():
@@ -225,8 +227,7 @@ def display_before_form(activity_id):
 
     # Get current date and time so that user can quickly select these using now
     # button if desired
-    pacific = pytz.timezone('US/Pacific')
-    now = datetime.now(tz=pacific)
+    now = datetime.now(tz=local_timezone)
     now_date = datetime.strftime(now, "%Y-%m-%d")
     now_time = datetime.strftime(now, "%I:%M %p")
 
@@ -246,10 +247,11 @@ def get_before_values(activity_id):
     start_date = request.form.get("planned-date")
 
     unformatted_time = start_date + " " + start_hour
-    start_time = datetime.strptime(unformatted_time, "%Y-%m-%d %I:%M %p")
+    start_time = datetime.strptime(unformatted_time, "%Y-%m-%d %I:%M %p", tzinfo=local_timezone)
+    utc_start_time = start_time.astimezone(ZoneInfo('UTC'))
 
     new_occurrence = Occurrence(activity_id=activity_id,
-                                start_time=start_time,
+                                start_time=utc_start_time,
                                 before_rating=before_rating)
 
     db.session.add(new_occurrence)
@@ -271,8 +273,7 @@ def display_after_form(occurrence_id):
 
     # Get current date and time so that user can quickly select these using now
     # button if desired
-    pacific = pytz.timezone('US/Pacific')
-    now = datetime.now(tz=pacific)
+    now = datetime.now(tz=local_timezone)
     now_date = datetime.strftime(now, "%Y-%m-%d")
     now_time = datetime.strftime(now, "%I:%M %p")
 
@@ -292,7 +293,7 @@ def get_after_values(occurrence_id):
     end_date = request.form.get("end-date")
 
     unformatted_time = end_date + " " + end_hour
-    end_time = datetime.strptime(unformatted_time, "%Y-%m-%d %I:%M %p")
+    end_time = datetime.strptime(unformatted_time, "%Y-%m-%d %I:%M %p", tz=local_timezone)
 
     completed_occurrence = Occurrence.query.filter(
         Occurrence.occurrence_id == occurrence_id
