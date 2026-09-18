@@ -70,8 +70,8 @@ class Occurrence(db.Model):
 
     occurrence_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     activity_id = db.Column(db.Integer, db.ForeignKey('activities.activity_id'))
-    start_time = db.Column(db.DateTime, nullable=False)
-    end_time = db.Column(db.DateTime, nullable=True)
+    start_time = db.Column(db.DateTime, nullable=False, tzinfo=True)
+    end_time = db.Column(db.DateTime, nullable=True, tzinfo=True)
     before_rating = db.Column(db.Integer, nullable=False)
     after_rating = db.Column(db.Integer, nullable=True)
     notes = db.Column(db.Unicode(350), nullable=True)
