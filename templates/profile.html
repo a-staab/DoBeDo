@@ -1,47 +1,39 @@
-<html>
-  <head><title>Update your profile</title></head>
-      <body ng-app="formApp" >
-          <form ng-controller="FormController">
-              <input type="text" ng-model="username" placeholder="Username" required><br>
-              <input type="text" ng-model="email" placeholder="Email" required><br>
-              <input type="text" ng-model="phoneNumber" placeholder="555-555-5555"><br>
-              <input type="text" ng-model="age" placeholder="Age (optional)"><br>
-              <input type="button" ng-click="reset()" value="Reset" />
-              <input type="submit" ng-click="update(profile)" value="Save" />
-          </form>
-      <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js">
-      </script>
-    <script >
-    var app = angular.module('formApp', []);
-
-        app.controller('FormController', function($scope, $http) {
-            $scope.username = "temporary"
-             $http.get('/json/user').then(function (results) {
-                console.log(results)
-                $scope.email = results.data.email
-                $scope.username = results.data.username
-                $scope.phoneNumber = results.data.phoneNumber
-                $scope.age = results.data.age
-             });
-
-            // TODO: Finish save/reset functionality
-            // $scope.sendToServer = function(argument) {
-            //     $http.post('/profile')
-            };
-        });
-    </script>
-  </body>
-</html>
-
-<!-- {% extends "base.html" %}
+{% extends "base.html" %}
 {% block title %}Update your profile{% endblock %}
 {% block content %}
-        
-<form action="/profile", method="POST">
-    <input type=text name="username" id="user-handle" placeholder={{ username }}><br>
-    <input type=text name="email" id= "user-email" placeholder={{ email }} required ><br>
-    <input type=number name="phoneNumber" id="user-phone-number" placeholder={{ phone }}><br>
-    <input type=number name="age" id="user-age" placeholder={{ age }}><br>
-    <center><input type="submit" value="Save changes" class="btn btn-secondary btn-md"></center>
-</form> --><!-- 
-{% endblock %} -->
+    <div id="root"></div>
+{% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/19.2.4/cjs/react.development.js" 
+    integrity="sha512-yZ6u0esCM/14Ue6HS2bq7CGADLdIPLQMi50ekhLd2krXXbVx6KSs7P5KklnYaBZQfEIKdHJ8SiRuVE9lWbr/tg==" 
+    crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/19.2.4/cjs/react-dom-client.development.js" 
+    integrity="sha512-HuBEf/bAsWlppUC3bcfksSNol2Djr+k5l3gzPudp9cgQu4bHqxtG6dWFj35zDX6eQsCWB4q9XpWXXo7f/rd8+w=="
+    crossorigin="anonymous">
+</script>
+<script src="">
+    function UpdateProfileForm() {
+        const [formData, setFormData] = React.useState([
+            user_handle: '',
+            email: '',
+            phone_number: '',
+            age: '',
+            // timezone (probably a dropdown)
+        ])
+
+        const handleChange = (event) => {
+            const { name, value } = event.target;
+            setFormData(prev => ({
+                ...prev,
+                [name]: value
+            }));
+        };
+        return (
+        <form onSubmit={handleSubmit}>
+        </form>
+        )
+    }
+    
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<UpdateProfileForm/>)
+</script>
+{% endblock %}
