@@ -22,7 +22,6 @@ class User(db.Model):
         return "<User with user_id %s and email %s>" % (self.user_id,
                                                         self.email)
 
-    # Note to self: as a method, is called in form instance.method()
     def get_planned_occurrences(self):
         """Get all the incomplete occurrences for user."""
 

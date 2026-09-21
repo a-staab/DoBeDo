@@ -53,46 +53,30 @@ def display_signup_form():
 @app.route("/signup", methods=["POST"])
 def signup_user():
     """Process signup form, adding user to database."""
+    
+    cleaned_form = { key: value.strip() for key, value in request.form.items() }
 
-    username = request.form.get("username")
-    password = request.form.get("password")
-    email = request.form.get("email")
-    phone_number = request.form.get("phone-number")
-    age = request.form.get("age")
+    username = cleaned_form.get("username")
+    password = cleaned_form.get("password")
+    email = cleaned_form.get("email")
+    # Age and phone number are optional
+    phone_number = cleaned_form.get("phone-number") or None
+    age = cleaned_form.get("age") or None
 
     # Check database for pre-existing account by checking for a user with the
     # provided email address
     if User.query.filter(User.email == email).all():
         flash("Looks like you've already registered. If you mistyped, please try again.")
-
         return redirect("/signup")
 
     else:
-
         # Generate salt and hash password to store hashed password in database
         password = bcrypt.hashpw(password.encode('utf8'), bcrypt.gensalt())
-        # Age and phone number are optional
-        if age and phone_number:
-            new_user = User(user_handle=username,
-                            password=password,
-                            email=email,
-                            phone_number=phone_number,
-                            age=age)
-        elif age:
-            new_user = User(user_handle=username,
-                            password=password,
-                            email=email,
-                            age=age)
-        elif phone_number:
-            new_user = User(user_handle=username,
-                            password=password,
-                            email=email,
-                            phone_number=phone_number)
-        else:
-            new_user = User(user_handle=username,
-                            password=password,
-                            email=email)
-
+        new_user = User(user_handle=username,
+                        password=password,
+                        email=email,
+                        phone_number=phone_number,
+                        age=age)
         db.session.add(new_user)
         db.session.commit()
 
@@ -397,4 +381,4 @@ def signout_user():
 if __name__ == "__main__":
     connect_to_db(app)
     DebugToolbarExtension(app)
-    app.run(host="0.0.0.0", port=5001)
+    app.run(host="0.0.0.0", port=5001, use_reloader=False)

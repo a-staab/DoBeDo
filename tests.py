@@ -1,6 +1,7 @@
 from server import app
-from model import db, connect_to_db, example_data
+from model import User, db, connect_to_db
 import unittest
+
 
 def setUpModule():
     """Runs once before any test in this file."""
@@ -39,18 +40,26 @@ class Logged_In(unittest.TestCase):
     def setUp(self):
         """Before each test."""
         self.client = app.test_client()
+
+        self.context = app.app_context()
+        self.context.push()
+
+        # Create tables and add sample data
+        db.create_all()
+        self.test_user1 = User(email='hb-student@hackbright.com', password='python',
+                          user_handle='artist')
+
         # Store a value for user_id in the session to mimic signed-in user
         with self.client as c:
             with c.session_transaction() as sess:
-                sess['user_id'] = 1
-        # Create tables and add sample data
-        db.create_all()
-        example_data()
+                sess['user_id'] = self.test_user1.user_id
 
     def tearDown(self):
         """After every test."""
         db.session.close()
         db.drop_all()
+
+        self.context.pop()
 
     def test_setup_page_renders(self):
         """Tests activity setup page loads."""

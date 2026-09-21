@@ -7,3 +7,4 @@ env/
 *.DS_Store
 secrets.sh
 dobedo_launch_script.sh
+.vscode/
