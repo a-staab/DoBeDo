@@ -331,7 +331,12 @@ def display_update_page():
 
     return render_template("profile.html")
 
-
+# If this application wasn't primarily for demonstration and learning, I would prefer to reuse
+# most of the sign-up template and refactor the corresponding POST route to allow reuse of the processing 
+# logic as well. It would not make sense to use React and add all of this duplicative code - extra
+# dependencies and testing burden...just, no. I'm shoehorning it in here anyway, though, 
+# to provide some public documentation of my React knowledge. That's the only reason for this 
+# otherwise very dubious decision.
 @app.route("/json/user", methods=["GET"])
 def get_profile_data():
     """Return json for updating user profile information."""
